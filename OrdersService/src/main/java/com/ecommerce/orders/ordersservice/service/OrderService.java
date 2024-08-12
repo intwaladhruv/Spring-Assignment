@@ -10,5 +10,6 @@ public interface OrderService {
     Optional<Orders> getOrderById(Long id);
     Orders saveOrder(Orders order);
     void deleteOrderById(Long id);
+    Orders placeOrder(Orders order);
 }
 
