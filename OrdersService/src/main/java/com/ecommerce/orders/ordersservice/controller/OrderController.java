@@ -3,6 +3,7 @@ package com.ecommerce.orders.ordersservice.controller;
 import com.ecommerce.orders.ordersservice.entity.Orders;
 import com.ecommerce.orders.ordersservice.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,15 +29,16 @@ public class OrderController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public Orders createOrder(@RequestBody Orders order) {
-        return orderService.saveOrder(order);
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         orderService.deleteOrderById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/place")
+    public ResponseEntity<Orders> placeOrder(@RequestBody Orders order) {
+        Orders savedOrder = orderService.placeOrder(order);
+        return new ResponseEntity<>(savedOrder, HttpStatus.CREATED);
     }
 }
 
